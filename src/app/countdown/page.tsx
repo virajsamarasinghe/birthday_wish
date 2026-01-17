@@ -7,9 +7,9 @@ import useSound from 'use-sound';
 export default function CountdownPage() {
   const [showWish, setShowWish] = useState(false);
   const [showBirthdayMessage, setShowBirthdayMessage] = useState(false);
-  const [showImageSection, setShowImageSection] = useState(false);
+  const [, setShowImageSection] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [play, { stop, sound }] = useSound('/music/happy-birthday-357371.mp3', {
+  const [play] = useSound('/music/happy-birthday-357371.mp3', {
     volume: 0.5,
     preload: true
   });
@@ -37,7 +37,7 @@ export default function CountdownPage() {
     audioRef.current.volume = 0.5;
     audioRef.current.preload = 'auto';
     
-    audioRef.current.addEventListener('error', (e: Event) => {
+    audioRef.current.addEventListener('error', () => {
       setAudioError('Failed to load audio file');
     });
 
@@ -59,7 +59,7 @@ export default function CountdownPage() {
         play();
         setAudioPlayed(true);
         return;
-      } catch (error) {
+      } catch {
         // Fallback to HTML5 audio
       }
       
@@ -71,7 +71,7 @@ export default function CountdownPage() {
             await playPromise;
             setAudioPlayed(true);
           }
-        } catch (error) {
+        } catch {
           setAudioError('Unable to play audio. Please check your browser settings.');
         }
       }
@@ -93,23 +93,23 @@ export default function CountdownPage() {
     if (!mounted) return;
     
     try {
-      const imagePromises = images.map((src, index) => {
-        return new Promise<void>((resolve, reject) => {
+      const imagePromises = images.map((src) => {
+        return new Promise<void>((resolve) => {
           const img = document.createElement('img');
           img.src = src;
           img.onload = () => {
             resolve();
           };
-          img.onerror = (error) => {
+          img.onerror = () => {
             setImageErrors(prev => new Set([...prev, src]));
             resolve(); // Don't reject, just mark as error and continue
           };
         });
       });
       
-      const results = await Promise.allSettled(imagePromises);
+      await Promise.allSettled(imagePromises);
       setImagesLoaded(true);
-    } catch (error) {
+    } catch {
       // Still mark as loaded to show images even if preloading failed
       setImagesLoaded(true);
     }
