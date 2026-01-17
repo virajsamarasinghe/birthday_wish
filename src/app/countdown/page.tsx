@@ -79,15 +79,13 @@ export default function CountdownPage() {
   };
 
   const images = useMemo(() => [
-    '/images/photo1.webp',
-    '/images/photo2.webp',
-    '/images/photo3.webp',
-    '/images/photo4.webp',
-    '/images/photo5.webp',
-    '/images/photo6.webp',
-    '/images/photo7.webp',
-    '/images/photo8.webp',
-    '/images/photo9.webp'
+    '/images/photo1.jpeg',
+    '/images/photo2.jpeg',
+    '/images/photo3.jpeg',
+    '/images/photo4.jpeg',
+    '/images/photo5.jpeg',
+    '/images/photo6.jpeg',
+    '/images/photo7.jpeg'
   ], []);
 
   // Preload images
