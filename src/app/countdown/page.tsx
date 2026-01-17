@@ -142,10 +142,10 @@ export default function CountdownPage() {
       try {
         play();
         setAudioPlayed(true);
-      } catch (error) {
+      } catch {
         // Fallback to HTML5 audio
         if (audioRef.current) {
-          audioRef.current.play().catch(e => {
+          audioRef.current.play().catch(() => {
             setAudioError('Click to play the birthday song!');
           });
         }
@@ -605,7 +605,7 @@ export default function CountdownPage() {
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ duration: 0.8 }}
                           loading="eager"
-                          onError={(e) => {
+                          onError={() => {
                             setImageErrors(prev => new Set([...prev, images[currentImageIndex]]));
                           }}
                           onLoad={() => {
